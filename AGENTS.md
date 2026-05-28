@@ -2,10 +2,10 @@
 
 ## Cursor Cloud specific instructions
 
-This repository currently contains only the top-level `README.md` portfolio
-document. There are no dependency manifests, setup scripts, tests, build
-targets, or application services to start.
+This repository is a Java 17 Spring Boot scaffold for a user profile key-value
+store. Use the Maven Wrapper (`./mvnw`) for development commands; see
+`README.md` for the standard test and run commands.
 
-For setup, the Cursor Cloud update script is intentionally a no-op. If source
-code is added later, update the repository documentation and replace the no-op
-with the minimal dependency refresh command for the new stack.
+The REST API, service, and repository layers are intentionally contract-only at
+this stage. Business endpoints should return HTTP 501 until business logic is
+added, while Actuator and Swagger/OpenAPI endpoints should start normally.
