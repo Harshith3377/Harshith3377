@@ -6,11 +6,13 @@ import com.harshith.userprofile.dto.UserProfileResponse;
 
 public interface UserProfileService {
 
-    UserProfileResponse createProfile(CreateUserProfileRequest request);
+    UserProfileResponse createUser(CreateUserProfileRequest request);
 
-    UserProfileResponse getProfile(String userId);
+    UserProfileResponse getUser(String userId);
 
-    UserProfileResponse upsertAttribute(String userId, String key, UpdateProfileAttributeRequest request);
+    UserProfileResponse updateUser(String userId, String key, UpdateProfileAttributeRequest request);
+
+    void deleteUser(String userId);
 
     void deleteAttribute(String userId, String key);
 }

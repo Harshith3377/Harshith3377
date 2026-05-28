@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/profiles")
-@Tag(name = "User Profiles", description = "User profile key-value store API contract")
+@Tag(name = "User Profiles", description = "User profile key-value store API")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
@@ -35,23 +35,30 @@ public class UserProfileController {
             @Valid @RequestBody CreateUserProfileRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(userProfileService.createProfile(request));
+                .body(userProfileService.createUser(request));
     }
 
     @GetMapping("/{userId}")
     @Operation(summary = "Get a user profile by user id")
     public ResponseEntity<UserProfileResponse> getProfile(@PathVariable String userId) {
-        return ResponseEntity.ok(userProfileService.getProfile(userId));
+        return ResponseEntity.ok(userProfileService.getUser(userId));
     }
 
     @PutMapping("/{userId}/attributes/{key}")
     @Operation(summary = "Create or update a profile attribute")
-    public ResponseEntity<UserProfileResponse> upsertAttribute(
+    public ResponseEntity<UserProfileResponse> updateAttribute(
             @PathVariable String userId,
             @PathVariable String key,
             @Valid @RequestBody UpdateProfileAttributeRequest request
     ) {
-        return ResponseEntity.ok(userProfileService.upsertAttribute(userId, key, request));
+        return ResponseEntity.ok(userProfileService.updateUser(userId, key, request));
+    }
+
+    @DeleteMapping("/{userId}")
+    @Operation(summary = "Delete a user profile")
+    public ResponseEntity<Void> deleteProfile(@PathVariable String userId) {
+        userProfileService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{userId}/attributes/{key}")
