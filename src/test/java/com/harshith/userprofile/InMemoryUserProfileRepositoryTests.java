@@ -8,7 +8,8 @@ import com.harshith.userprofile.model.UserProfile;
 import com.harshith.userprofile.repository.inmemory.InMemoryUserProfileRepository;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import com.harshith.userprofile.exception.DuplicateUserProfileException;
+import com.harshith.userprofile.exception.UserProfileNotFoundException;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -28,6 +29,14 @@ class InMemoryUserProfileRepositoryTests {
 
         assertThat(savedProfile).isEqualTo(profile);
         assertThat(repository.findByUserId("user-123")).contains(profile);
+    }
+
+    @Test
+    void rejectsDuplicateProfileOnCreate() {
+        repository.create(new UserProfile("user-123", Map.of("theme", "dark")));
+
+        assertThatExceptionOfType(DuplicateUserProfileException.class)
+                .isThrownBy(() -> repository.create(new UserProfile("user-123", Map.of("theme", "light"))));
     }
 
     @Test
@@ -90,9 +99,9 @@ class InMemoryUserProfileRepositoryTests {
 
     @Test
     void rejectsAttributeUpdatesForMissingProfiles() {
-        assertThatExceptionOfType(NoSuchElementException.class)
+        assertThatExceptionOfType(UserProfileNotFoundException.class)
                 .isThrownBy(() -> repository.putAttribute("missing-user", "theme", "dark"));
-        assertThatExceptionOfType(NoSuchElementException.class)
+        assertThatExceptionOfType(UserProfileNotFoundException.class)
                 .isThrownBy(() -> repository.deleteAttribute("missing-user", "theme"));
     }
 

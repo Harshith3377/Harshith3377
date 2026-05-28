@@ -14,8 +14,8 @@ Spring Boot scaffold for a user profile key-value store.
 - Spring Boot Actuator
 - Simple extensible design based on interfaces
 
-Business logic is intentionally not implemented yet. API methods currently return
-HTTP 501 through a shared exception handler.
+The service layer supports in-memory user profile management, including duplicate
+user prevention, key-value updates, deletes, and automatic create/update timestamps.
 
 ## Project layout
 
@@ -44,4 +44,4 @@ After the app starts:
 - Actuator health: <http://localhost:8080/actuator/health>
 - OpenAPI JSON: <http://localhost:8080/v3/api-docs>
 - Swagger UI: <http://localhost:8080/swagger-ui.html>
-- Example API contract: <http://localhost:8080/api/v1/profiles/user-123>
+- User profile API: <http://localhost:8080/api/v1/profiles/{userId}>
